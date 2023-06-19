@@ -1,0 +1,59 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/select.css' %}" />
+    <script src="https://kit.fontawesome.com/3bbe294283.js" crossorigin="anonymous"></script>
+    <title>To-do lists</title>
+  </head>
+  <body>
+    <div id="myDIV" class="header">
+      <!-- <img src="{% static 'to.jpg' %}" alt=""> -->
+        <a class=" btn btn-danger" href="{% url 'logout' %}">
+          Выйти
+        </a>
+        
+          <h2> Cписок дел {{request.user.username}} </h2>
+
+          <form method="post">
+            {% csrf_token %}
+            <div id="myDIV" class="header_1">
+            <input type="text" name="title">
+            <input type="datetime-local" name="date">
+            <button type="submit" name="add" class="addBtn" onclick="newElement()">Добавить</button>
+          </div>
+          </form>
+        </div>
+        <ul id="myUL">
+          {% for list in todo %}
+          {%if list.is_complete == False %}
+          
+        
+        <li class='li_1'>{{list.title}} <br><br>
+          {{list.date|date:'d/M/Y H:i'}} 
+          <div class="div_2">
+            <div class="div_3">
+            <a href="{% url 'update' list.id %}" class="pepsi"><button class='button_1'></button></a>
+            <form method="post">
+              {% csrf_token %}
+              <input name="id" type="hidden" value="{{list.id}}">
+                <button class='button_2' type="submit" name="delete" ><i class="fa-regular fa-trash-can"></i></button>
+              </form>
+            </div>
+          <small class="text-muted">{{list.created|date:'Y, d M'}}</small>
+        </div>
+      </li>
+       
+        {%else%}
+        <li class="checked">{{list.title}}</li>
+        {%endif%}
+        {% endfor %}
+      </ul>
+
+      <script type="text/javascript" src="{% static 'js/lists.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/select.js' %}"></script>
+  </body>
+</html>

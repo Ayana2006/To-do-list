@@ -1,0 +1,8 @@
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('apps.to_dolists.urls')),
+    path('', include('apps.todo.urls')),
+]
